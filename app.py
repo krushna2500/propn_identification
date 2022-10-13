@@ -1,6 +1,5 @@
 import spacy
 import streamlit as st
-from functions import removeConsecutiveDuplicates
 import nltk
 from nltk.corpus import words
 from nltk.tokenize import word_tokenize
@@ -10,6 +9,20 @@ nltk.download('punkt')
 
 data = set(map(lambda x: x.lower(), list(words.words())))
 nlp = spacy.load('en_core_web_sm', disable=['parser', 'ner'])
+
+
+def removeConsecutiveDuplicates(name, k):
+    while True:
+        count = 0
+        chars = set(name)
+        for c in chars:
+            if c * k in name:
+                name = name.replace(c * k, c)
+                count += 1
+        if count == 0:
+            break
+    return name
+
 
 def propn_identification_pos(text):
     doc = nlp(text)
